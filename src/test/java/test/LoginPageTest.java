@@ -10,7 +10,7 @@ import org.testng.annotations.*;
 import pages.LoginPage;
 
 public class LoginPageTest {
-    WebDriver driver;
+    private WebDriver driver;
     private LoginPage loginPage;
     private final String validUsername = "guest";
     private final String invalidUsername = "tseug";
