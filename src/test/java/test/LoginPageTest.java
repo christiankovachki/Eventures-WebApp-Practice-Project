@@ -63,8 +63,8 @@ public class LoginPageTest {
         Assert.assertEquals(requiredPasswordMsg, "The Password field is required.");
     }
 
-//    @AfterMethod
-//    public void tearDown() {
-//        driver.quit();
-//    }
+    @AfterMethod
+    public void tearDown() {
+        driver.quit();
+    }
 }
