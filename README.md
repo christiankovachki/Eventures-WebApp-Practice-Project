@@ -1,6 +1,5 @@
-My first attempt at writing Automated tests, using POM.
+# WORK IN PROGRESS
 
-The tests are written in Java.
-Used frameworks: Selenium, TestNG
+My first attempt at writing automated tests using POM.
 
-WORK IN PROGRESS
+Used technologies: Java, Selenium WebDriver, TestNG
