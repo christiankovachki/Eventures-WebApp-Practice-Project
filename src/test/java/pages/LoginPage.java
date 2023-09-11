@@ -5,11 +5,9 @@ import org.openqa.selenium.WebDriver;
 
 public class LoginPage {
     private WebDriver driver;
-    private HomePage homePage;
-    private final String pageTitle = "Log in - Eventures App";
     private By usernameField = By.id("Input_Username");
     private By passwordField = By.id("Input_Password");
-    private By loginButton = By.xpath("//*[@id=\"account\"]/div[4]/button");
+    private By loginButton = By.cssSelector(".btn");
 
     public LoginPage(WebDriver driver) {
         this.driver = driver;
@@ -28,11 +26,27 @@ public class LoginPage {
     }
 
     public boolean verifySuccessfulLogin() {
-        return driver.findElement(By.xpath("/html/body/header/nav/div/div/ul[1]/li[2]/form/button")).isDisplayed();
+        return driver.findElement(By.xpath("//button[contains(.,'Logout')]")).isDisplayed();
+    }
+
+    public String getInvalidAttemptMessage() {
+        return driver.findElement(By.cssSelector(".text-danger li")).getText();
+    }
+
+    public String getRequiredUsernameMessage() {
+        return driver.findElement(By.id("Input_Username-error")).getText();
+    }
+
+    public String getRequiredPasswordMessage() {
+        return driver.findElement(By.id("Input_Password-error")).getText();
+    }
+
+    public String getWelcomeMessage() {
+        return driver.findElement(By.cssSelector(".text-center:nth-child(1)")).getText();
     }
 
     public void loginSteps(String username, String password) {
-        homePage = new HomePage(driver);
+        HomePage homePage = new HomePage(driver);
         homePage.navigateToHomePageUrl();
         homePage.clickLogInLink();
         typeInUsernameField(username);
