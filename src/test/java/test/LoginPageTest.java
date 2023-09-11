@@ -29,9 +29,8 @@ public class LoginPageTest {
     public void testLoginWithValidCredentials() {
         loginPage.loginSteps(validUsername, validPassword);
 
-        WebElement welcomeMsg = driver.findElement(By.xpath("/html/body/div/main/div/h1"));
         Assert.assertTrue(loginPage.verifySuccessfulLogin());
-        Assert.assertEquals(welcomeMsg.getText(), "Welcome, " + validUsername);
+        Assert.assertEquals(loginPage.getWelcomeMessage(), "Welcome, " + validUsername);
     }
 
     // Test with valid username and invalid password
@@ -39,8 +38,7 @@ public class LoginPageTest {
     public void testLoginWithInvalidPassword() {
         loginPage.loginSteps(validUsername, invalidPassword);
 
-        String invalidAttemptMsg = driver.findElement(By.xpath("//*[@id=\"account\"]/div[1]")).getText();
-        Assert.assertEquals(invalidAttemptMsg, "Invalid login attempt.");
+        Assert.assertEquals(loginPage.getInvalidAttemptMessage(), "Invalid login attempt.");
     }
 
     // Test with invalid username and valid password
@@ -48,8 +46,7 @@ public class LoginPageTest {
     public void testLoginWithInvalidUsername() {
         loginPage.loginSteps(invalidUsername, validPassword);
 
-        String invalidAttemptMsg = driver.findElement(By.xpath("//*[@id=\"account\"]/div[1]")).getText();
-        Assert.assertEquals(invalidAttemptMsg, "Invalid login attempt.");
+        Assert.assertEquals(loginPage.getInvalidAttemptMessage(), "Invalid login attempt.");
     }
 
     // Test with invalid credentials, e.g empty username and password fields
@@ -57,10 +54,8 @@ public class LoginPageTest {
     public void testLoginWithInvalidCredentials() {
         loginPage.loginSteps("", "");
 
-        String requiredUsernameMsg = driver.findElement(By.id("Input_Username-error")).getText();
-        String requiredPasswordMsg = driver.findElement(By.id("Input_Password-error")).getText();
-        Assert.assertEquals(requiredUsernameMsg, "The Username field is required.");
-        Assert.assertEquals(requiredPasswordMsg, "The Password field is required.");
+        Assert.assertEquals(loginPage.getRequiredUsernameMessage(), "The Username field is required.");
+        Assert.assertEquals(loginPage.getRequiredPasswordMessage(), "The Password field is required.");
     }
 
     @AfterMethod
