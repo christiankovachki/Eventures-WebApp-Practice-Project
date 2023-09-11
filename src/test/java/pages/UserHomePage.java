@@ -6,9 +6,12 @@ import org.openqa.selenium.WebDriver;
 // The page which the user sees after entering valid credentials
 public class UserHomePage {
     private WebDriver driver;
-    private final String welcomeMessage = "Eventures wishes you an exciting experience.";
-    private By logoutLink = By.xpath("/html/body/header/nav/div/div/ul[1]/li[2]/form/button");
+    private By logoutLink = By.xpath("//button[contains(.,'Logout')]");
     private By eventsDropdownMenuLink = By.id("dropdownMenuLink");
+    private By allEventsFromDropdown = By.xpath("//a[contains(text(),'All Events')]");
+    private By createEventFromDropdown = By.xpath("//a[contains(text(),'Create Event')]");
+    private By allEventsFromLink = By.cssSelector(".mt-4:nth-child(4) > a");
+    private By createEventFromLink = By.cssSelector(".mt-4:nth-child(5) > a");
 
     public UserHomePage(WebDriver driver) {
         this.driver = driver;
@@ -19,23 +22,19 @@ public class UserHomePage {
     }
 
     public void clickAllEventsFromDropdown() {
-        driver.findElement(By.xpath("/html/body/header/nav/div/div/ul[2]/li[2]/div/div/a[1]")).click();
+        driver.findElement(allEventsFromDropdown).click();
     }
 
     public void clickCreateEventFromDropdown() {
-        driver.findElement(By.xpath("/html/body/header/nav/div/div/ul[2]/li[2]/div/div/a[2]")).click();
+        driver.findElement(createEventFromDropdown).click();
     }
 
     public void clickAllEventsFromLink() {
-        driver.findElement(By.xpath("/html/body/div/main/div/h3[1]/a")).click();
+        driver.findElement(allEventsFromLink).click();
     }
 
     public void clickCreateFromLink() {
-        driver.findElement(By.xpath("/html/body/div/main/div/h3[2]/a")).click();
-    }
-
-    public boolean isTotalEventsMessageDisplayed() {
-        return driver.findElement(By.xpath("/html/body/div/main/div/h5[1]/text()[1]")).isDisplayed();
+        driver.findElement(createEventFromLink).click();
     }
 
     public void clickLogoutLink() {
