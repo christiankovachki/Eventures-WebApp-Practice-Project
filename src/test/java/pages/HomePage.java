@@ -6,9 +6,8 @@ import org.openqa.selenium.WebDriver;
 public class HomePage {
     private WebDriver driver;
     private final String url = "http://softuni-qa-loadbalancer-2137572849.eu-north-1.elb.amazonaws.com:81/";
-    private final String pageTitle = "Home Page - Eventures App";
-    private By logInLink = By.xpath("/html/body/div/main/div/h3[1]/a");
-    private By registerLink = By.xpath("/html/body/div/main/div/h3[2]/a");
+    private By logInLink = By.xpath("(//a[contains(text(),'Login')])[2]");
+    private By registerLink = By.xpath("(//a[contains(text(),'Register')])[2]");
 
     public HomePage(WebDriver driver) {
         this.driver = driver;
