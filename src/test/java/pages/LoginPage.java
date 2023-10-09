@@ -1,56 +1,48 @@
 package pages;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 
-public class LoginPage {
-    private WebDriver driver;
-    private By usernameField = By.id("Input_Username");
-    private By passwordField = By.id("Input_Password");
-    private By loginButton = By.cssSelector(".btn");
+public class LoginPage extends BasePage {
+    @FindBy(id = "Input_Username")
+    private WebElement usernameField;
+    @FindBy(id = "Input_Password")
+    private WebElement passwordField;
+    @FindBy(css = "button.btn")
+    private WebElement logInButton;
+    @FindBy(id = "Input_Username-error")
+    private WebElement requiredUsernameMessage;
+    @FindBy(id = "Input_Password-error")
+    private WebElement requiredPasswordMessage;
+    @FindBy(css = ".text-danger li")
+    private WebElement invalidAttemptMessage;
 
     public LoginPage(WebDriver driver) {
-        this.driver = driver;
-    }
-
-    private void typeInUsernameField(String username) {
-        driver.findElement(usernameField).sendKeys(username);
-    }
-
-    private void typeInPasswordField(String password) {
-        driver.findElement(passwordField).sendKeys(password);
-    }
-
-    private void clickLoginButton() {
-        driver.findElement(loginButton).click();
-    }
-
-    public boolean verifySuccessfulLogin() {
-        return driver.findElement(By.xpath("//button[contains(.,'Logout')]")).isDisplayed();
+        super(driver);
+        PageFactory.initElements(driver, this);
     }
 
     public String getInvalidAttemptMessage() {
-        return driver.findElement(By.cssSelector(".text-danger li")).getText();
+        return invalidAttemptMessage.getText();
     }
 
     public String getRequiredUsernameMessage() {
-        return driver.findElement(By.id("Input_Username-error")).getText();
+        return requiredUsernameMessage.getText();
     }
 
     public String getRequiredPasswordMessage() {
-        return driver.findElement(By.id("Input_Password-error")).getText();
+        return requiredPasswordMessage.getText();
     }
 
-    public String getWelcomeMessage() {
-        return driver.findElement(By.cssSelector(".text-center:nth-child(1)")).getText();
-    }
-
-    public void loginSteps(String username, String password) {
+    public UserHomePage loginSteps(String username, String password) {
         HomePage homePage = new HomePage(driver);
         homePage.navigateToHomePageUrl();
         homePage.clickLogInLink();
-        typeInUsernameField(username);
-        typeInPasswordField(password);
-        clickLoginButton();
+        typeInField(usernameField, username);
+        typeInField(passwordField, password);
+        clickOnElement(logInButton);
+        return new UserHomePage(driver);
     }
 }
