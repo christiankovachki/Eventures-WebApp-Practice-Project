@@ -1,93 +1,80 @@
 package pages;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 
-public class RegisterPage {
-    private WebDriver driver;
-    private HomePage homePage;
-    private By usernameField = By.id("Input_Username");
-    private By emailField = By.id("Input_Email");
-    private By passwordField = By.id("Input_Password");
-    private By confirmPasswordField = By.id("Input_ConfirmPassword");
-    private By firstNameField = By.id("Input_FirstName");
-    private By lastNameField = By.id("Input_LastName");
-    private By registerButton = By.xpath("//button[contains(.,'Register')]");
-    private By invalidFirstNameMessage = By.id("Input_FirstName-error");
-    private By invalidLastNameMessage = By.id("Input_LastName-error");
-    private By invalidPasswordMessage = By.id("Input_Password-error");
-    private By invalidConfirmPasswordMessage = By.id("Input_ConfirmPassword-error");
-    private By invalidUsernameMessage = By.id("Input_Username-error");
-    private By invalidEmailMessage = By.id("Input_Email-error");
+public class RegisterPage extends BasePage {
+    @FindBy(id = "Input_Username")
+    private WebElement usernameField;
+    @FindBy(id = "Input_Email")
+    private WebElement emailField;
+    @FindBy(id = "Input_Password")
+    private WebElement passwordField;
+    @FindBy(id = "Input_ConfirmPassword")
+    private WebElement confirmPasswordField;
+    @FindBy(id = "Input_FirstName")
+    private WebElement firstNameField;
+    @FindBy(id = "Input_LastName")
+    private WebElement lastNameField;
+    @FindBy(css = "button.btn")
+    private WebElement registerButton;
+    @FindBy(id = "Input_FirstName-error")
+    private WebElement invalidFirstNameMessage;
+    @FindBy(id = "Input_LastName-error")
+    private WebElement invalidLastNameMessage;
+    @FindBy(id = "Input_Password-error")
+    private WebElement invalidPasswordMessage;
+    @FindBy(id = "Input_ConfirmPassword-error")
+    private WebElement invalidConfirmPasswordMessage;
+    @FindBy(id = "Input_Username-error")
+    private WebElement invalidUsernameMessage;
+    @FindBy(id = "Input_Email-error")
+    private WebElement invalidEmailMessage;
 
 
     public RegisterPage(WebDriver driver) {
-        this.driver = driver;
-    }
-
-    private void typeInUsernameField(String username) {
-        driver.findElement(usernameField).sendKeys(username);
-    }
-
-    private void typeInEmailField(String email) {
-        driver.findElement(emailField).sendKeys(email);
-    }
-
-    private void typeInPasswordField(String password) {
-        driver.findElement(passwordField).sendKeys(password);
-    }
-
-    private void typeInConfirmPasswordField(String password) {
-        driver.findElement(confirmPasswordField).sendKeys(password);
-    }
-
-    private void typeInFirstNameField(String firstName) {
-        driver.findElement(firstNameField).sendKeys(firstName);
-    }
-
-    private void typeInLastNameField(String lastName) {
-        driver.findElement(lastNameField).sendKeys(lastName);
-    }
-
-    private void clickRegisterButton() {
-        driver.findElement(registerButton).click();
+        super(driver);
+        PageFactory.initElements(driver, this);
     }
 
     public String getInvalidFirstNameMessage() {
-        return driver.findElement(invalidFirstNameMessage).getText();
+        return invalidFirstNameMessage.getText();
     }
 
     public String getInvalidLastNameMessage() {
-        return driver.findElement(invalidLastNameMessage).getText();
+        return invalidLastNameMessage.getText();
     }
 
     public String getInvalidPasswordMessage() {
-        return driver.findElement(invalidPasswordMessage).getText();
+        return invalidPasswordMessage.getText();
     }
 
     public String getInvalidConfirmPasswordMessage() {
-        return driver.findElement(invalidConfirmPasswordMessage).getText();
+        return invalidConfirmPasswordMessage.getText();
     }
 
     public String getInvalidUsernameMessage() {
-        return driver.findElement(invalidUsernameMessage).getText();
+        return invalidUsernameMessage.getText();
     }
 
     public String getInvalidEmailMessage() {
-        return driver.findElement(invalidEmailMessage).getText();
+        return invalidEmailMessage.getText();
     }
 
-    public void registrationSteps(String username, String email, String password, String confirmPassword,
+    public UserHomePage registrationSteps(String username, String email, String password, String confirmPassword,
                                   String firstName, String lastName) {
-        homePage = new HomePage(driver);
+        HomePage homePage = new HomePage(driver);
         homePage.navigateToHomePageUrl();
         homePage.clickRegisterLink();
-        typeInUsernameField(username);
-        typeInEmailField(email);
-        typeInPasswordField(password);
-        typeInConfirmPasswordField(confirmPassword);
-        typeInFirstNameField(firstName);
-        typeInLastNameField(lastName);
-        clickRegisterButton();
+        typeInField(usernameField, username);
+        typeInField(emailField, email);
+        typeInField(passwordField, password);
+        typeInField(confirmPasswordField, confirmPassword);
+        typeInField(firstNameField, firstName);
+        typeInField(lastNameField, lastName);
+        clickOnElement(registerButton);
+        return new UserHomePage(driver);
     }
 }
