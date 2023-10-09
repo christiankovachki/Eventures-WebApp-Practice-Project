@@ -1,43 +1,63 @@
 package pages;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 
 // The page which the user sees after entering valid credentials
-public class UserHomePage {
-    private WebDriver driver;
-    private By logoutLink = By.xpath("//button[contains(.,'Logout')]");
-    private By eventsDropdownMenuLink = By.id("dropdownMenuLink");
-    private By allEventsFromDropdown = By.xpath("//a[contains(text(),'All Events')]");
-    private By createEventFromDropdown = By.xpath("//a[contains(text(),'Create Event')]");
-    private By allEventsFromLink = By.cssSelector(".mt-4:nth-child(4) > a");
-    private By createEventFromLink = By.cssSelector(".mt-4:nth-child(5) > a");
+public class UserHomePage extends BasePage {
+    @FindBy(css = "button.btn")
+    private WebElement logoutLink;
+    @FindBy(id = "dropdownMenuLink")
+    private WebElement eventsDropdownMenuLink;
+    @FindBy(css = ".dropdown-item[href='/Events/All']")
+    private WebElement allEventsFromDropdown;
+    @FindBy(xpath = "//a[contains(text(),'Create Event')]")
+    private WebElement createEventFromDropdown;
+    @FindBy(css = ".mt-4 [href='/Events/All']")
+    private WebElement allEventsFromLink;
+    @FindBy(css = ".mt-4 [href='/Events/Create']")
+    private WebElement createEventFromLink;
+    @FindBy(css = "h1.text-center")
+    private WebElement welcomeMessage;
 
     public UserHomePage(WebDriver driver) {
-        this.driver = driver;
+        super(driver);
+        PageFactory.initElements(driver, this);
     }
 
     public void clickEventsMenu() {
-        driver.findElement(eventsDropdownMenuLink).click();
+        clickOnElement(eventsDropdownMenuLink);
     }
 
     public void clickAllEventsFromDropdown() {
-        driver.findElement(allEventsFromDropdown).click();
+        clickOnElement(allEventsFromDropdown);
     }
 
     public void clickCreateEventFromDropdown() {
-        driver.findElement(createEventFromDropdown).click();
+        clickOnElement(createEventFromDropdown);
     }
 
     public void clickAllEventsFromLink() {
-        driver.findElement(allEventsFromLink).click();
+        clickOnElement(allEventsFromLink);
     }
 
     public void clickCreateFromLink() {
-        driver.findElement(createEventFromLink).click();
+        clickOnElement(createEventFromLink);
     }
 
     public void clickLogoutLink() {
-        driver.findElement(logoutLink).click();
+        clickOnElement(logoutLink);
+    }
+
+    public String getWelcomeMessage() {
+        waitForVisibilityOfElement(welcomeMessage);
+        return welcomeMessage.getText();
+    }
+
+    public boolean verifySuccessfulLogin() {
+        waitForVisibilityOfElement(logoutLink);
+        return logoutLink.isDisplayed();
     }
 }
