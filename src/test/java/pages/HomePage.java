@@ -1,27 +1,32 @@
 package pages;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 
-public class HomePage {
-    private WebDriver driver;
-    private final String url = "http://softuni-qa-loadbalancer-2137572849.eu-north-1.elb.amazonaws.com:81/";
-    private By logInLink = By.xpath("(//a[contains(text(),'Login')])[2]");
-    private By registerLink = By.xpath("(//a[contains(text(),'Register')])[2]");
+public class HomePage extends BasePage {
+    @FindBy(css = ".mt-4 [href='/Identity/Account/Login']")
+    private WebElement logInLink;
+    @FindBy(css = ".mt-4 [href='/Identity/Account/Register']")
+    private WebElement registerLink;
 
     public HomePage(WebDriver driver) {
-        this.driver = driver;
+        super(driver);
+        PageFactory.initElements(driver, this);
     }
 
     public void navigateToHomePageUrl() {
-        driver.navigate().to(url);
+        driver.navigate().to(BASE_URL);
     }
 
-    public void clickLogInLink() {
-        driver.findElement(logInLink).click();
+    public LoginPage clickLogInLink() {
+        clickOnElement(logInLink);
+        return new LoginPage(driver);
     }
 
-    public void clickRegisterLink() {
-        driver.findElement(registerLink).click();
+    public RegisterPage clickRegisterLink() {
+        clickOnElement(registerLink);
+        return new RegisterPage(driver);
     }
 }
